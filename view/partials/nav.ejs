@@ -1,0 +1,74 @@
+<nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/"><i class="fas fa-blog"></i> BlogSphere</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/allposts">Stories</a>
+                    </li>
+
+                </ul>
+                <div class="d-flex align-items-center gap-3">
+                    <a href="/search" class="search-icon" aria-label="Search">
+                        <i class="fas fa-search"></i>
+                    </a>
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-link position-relative dropdown-toggle search-icon p-0"
+                            id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false"
+                            aria-label="Notifications">
+                            <i class="fas fa-bell"></i>
+                            <% if (user && user.notifications && user.notifications.filter(n=> !n.read).length > 0) { %>
+                                <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                    style="font-size:0.7rem;">
+                                    <%= user.notifications.filter(n=> !n.read).length %>
+                                </span>
+                                <% } %>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end p-2" aria-labelledby="notificationDropdown"
+                            style="min-width: 300px; max-width: 350px; max-height: 350px; overflow-y: auto;">
+                            <% if (user && user.notifications && user.notifications.length> 0) { %>
+                                <% user.notifications.slice(-5).reverse().forEach(notification=> { %>
+                                    <li class="dropdown-item <%= notification.read ? '' : 'fw-bold' %>">
+                                        <%= notification.text %><br>
+                                            <small class="text-muted">
+                                                <%= new Date(notification.createdAt).toLocaleString() %>
+                                            </small>
+                                    </li>
+                                    <% }) %>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+                                        <li><button class="dropdown-item text-center text-primary"
+                                                id="markAllReadBtn">Mark all as read</button></li>
+                                        <% } else { %>
+                                            <li class="dropdown-item text-muted">No notifications</li>
+                                            <% } %>
+                        </ul>
+                    </div>
+                    <% if (typeof user !== 'undefined' && user) { %>
+                        <div class="dropdown">
+                            <button class="cta-button dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <%= user.username %>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end profile-dropdown">
+                                <li><a class="dropdown-item" href="/user/dashboard">Dashboard</a></li>
+                                <li><a class="dropdown-item" href="/user/profile">Profile</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="/user/logout">Logout</a></li>
+                            </ul>
+                        </div>
+                    <% } else { %>
+                        <a href="/user/login" class="cta-button">Login</a>
+                        <a href="/user/signup" class="cta-button outline">Sign Up</a>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </nav>

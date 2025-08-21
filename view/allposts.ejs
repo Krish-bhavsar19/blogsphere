@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Posts - BlogSphere</title>
+    <%- include('partials/head') %>
+    <link rel="stylesheet" href="/style/theme.css">
+    <link rel="stylesheet" href="/style/allpost.css">
+</head>
+
+<body>
+    <%- include('partials/nav') %>
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1 class="page-title">
+                <i class="fas fa-blog me-3"></i>All Published Posts
+            </h1>
+            <p class="page-subtitle">Explore the latest content from our community</p>
+        </div>
+    </section>
+
+    <!-- Content Section -->
+    <section class="content-section">
+        <div class="container">
+            <div class="results-count">
+                <% if (posts && posts.length > 0) { %>
+                    Total <strong><%= posts.length %></strong> post<%= posts.length === 1 ? '' : 's' %>
+                <% } else { %>
+                    No posts found
+                <% } %>
+            </div>
+
+            <% if (posts && posts.length > 0) { %>
+                <div class="row">
+                    <% posts.forEach(post => { %>
+                        <div class="col-lg-6 col-md-6 mb-4">
+                            <div class="card post-card">
+                                <img src="<%= post.image || '/images/default-post.jpg' %>" class="post-image" alt="<%= post.title %>"
+                                    onerror="this.onerror=null;this.src='/images/default-post.jpg';">
+                                <div class="post-content">
+                                    <div class="d-flex justify-content-between align-items-start mb-3">
+                                        <span class="category-badge">
+                                            <%= post.category || 'General' %>
+                                        </span>
+                                        <small class="text-muted">
+                                            <%= new Date(post.createdAt).toLocaleDateString() %>
+                                        </small>
+                                    </div>
+
+                                    <h5 class="post-title"><%= post.title %></h5>
+
+                                    <div class="post-meta">
+                                        <div class="author-info">
+                                            <img src="<%= post.author && post.author.profileImageURL ? post.author.profileImageURL : '/images/man-avatar.jpg' %>"
+                                                alt="<%= post.author && post.author.username ? post.author.username : 'Unknown' %>"
+                                                class="author-avatar" onerror="this.onerror=null;this.src='/images/man-avatar.jpg';">
+                                            <span>
+                                                <%= post.author && post.author.username ? post.author.username : 'Unknown Author' %>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <a href="/posts/<%= post._id %>" class="read-more-btn">
+                                        <i class="fas fa-arrow-right fa-sm me-2"></i>Read More
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
+            <% } else { %>
+                <div class="no-results">
+                    <i class="fas fa-blog"></i>
+                    <h4>No posts found</h4>
+                    <p>Be the first to share your story!</p>
+                    <a href="/user/dashboard" class="back-btn">
+                        <i class="fas fa-pen me-2"></i>Write a Post
+                    </a>
+                </div>
+            <% } %>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h5>BlogSphere</h5>
+                    <p>Share your stories, connect with writers, and discover amazing content from around the world.</p>
+                </div>
+                <div class="footer-section">
+                    <h5>Quick Links</h5>
+                    <a href="#">About Us</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+                <div class="footer-section">
+                    <h5>Connect With Us</h5>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 BlogSphere. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        window.addEventListener('scroll', function () {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+                navbar.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+            } else {
+                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                navbar.style.boxShadow = 'none';
+            }
+        });
+
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function (entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const animatedElements = document.querySelectorAll('.page-header, .content-section, .post-card');
+
+            animatedElements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Post - BlogSphere</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style/theme.css">
+    <link rel="stylesheet" href="/style/editPost.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/"><i class="fas fa-blog"></i> BlogSphere</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center gap-3">
+                    <a href="/search" class="search-icon" aria-label="Search">
+                        <i class="fas fa-search"></i>
+                    </a>
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-link position-relative dropdown-toggle search-icon p-0"
+                            id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false"
+                            aria-label="Notifications">
+                            <i class="fas fa-bell"></i>
+                            <% if (user && user.notifications && user.notifications.filter(n=> !n.read).length > 0) { %>
+                                <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                    style="font-size:0.7rem;">
+                                    <%= user.notifications.filter(n=> !n.read).length %>
+                                </span>
+                            <% } %>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end p-2" aria-labelledby="notificationDropdown"
+                            style="min-width: 300px; max-width: 350px; max-height: 350px; overflow-y: auto;">
+                            <% if (user && user.notifications && user.notifications.length> 0) { %>
+                                <% user.notifications.slice(-5).reverse().forEach(notification=> { %>
+                                    <li class="dropdown-item <%= notification.read ? '' : 'fw-bold' %>">
+                                        <%= notification.text %><br>
+                                        <small class="text-muted">
+                                            <%= new Date(notification.createdAt).toLocaleString() %>
+                                        </small>
+                                    </li>
+                                <% }) %>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><button class="dropdown-item text-center text-primary"
+                                        id="markAllReadBtn">Mark all as read</button></li>
+                                <li><a class="dropdown-item text-center" href="/notifications">View all
+                                        notifications</a></li>
+                            <% } else { %>
+                                <li class="dropdown-item text-muted">No notifications</li>
+                            <% } %>
+                        </ul>
+                    </div>
+                    <% if (typeof user !=='undefined' && user) { %>
+                        <div class="dropdown">
+                            <button class="cta-button dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                <%= user.username %>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="/user/dashboard">Dashboard</a></li>
+                                <li><a class="dropdown-item" href="/user/profile">Profile</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="/user/logout">Logout</a></li>
+                            </ul>
+                        </div>
+                    <% } else { %>
+                        <a href="/user/login" class="cta-button">Login</a>
+                        <a href="/user/signup" class="cta-button outline">Sign Up</a>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1 class="page-title">
+                <i class="fas fa-edit me-3"></i>Edit Post
+            </h1>
+            <p class="page-subtitle">Update and refine your story to make it even better</p>
+        </div>
+    </section>
+
+    <!-- Content Section -->
+    <section class="content-section">
+        <div class="container">
+            <div class="edit-container">
+                <div class="edit-form-card">
+                    <div class="edit-form-header">
+                        <h2 class="edit-form-title">
+                            <i class="fas fa-pen-to-square me-2"></i>
+                            Post Details
+                        </h2>
+                    </div>
+                    <div class="edit-form-body">
+                        <% if (typeof error !=='undefined' && error) { %>
+                            <div class="error-message">
+                                <%= error %>
+                            </div>
+                        <% } %>
+                        
+                        <form action="/posts/<%= post._id %>/edit" method="POST" enctype="multipart/form-data">
+                            <div class="mb-4">
+                                <label for="title" class="form-label">Post Title</label>
+                                <input type="text" class="form-control" id="title" name="title" 
+                                    value="<%= post.title %>" placeholder="Enter your post title..." required>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="content" class="form-label">Content</label>
+                                <textarea class="form-control" id="content" name="content" rows="10" 
+                                    placeholder="Write your story here..." required><%= post.content %></textarea>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-6">
+                                    <label for="category" class="form-label">Category</label>
+                                    <select class="form-select" id="category" name="category">
+                                        <option value="Technology" <%=post.category==='Technology' ? 'selected' : '' %>>Technology</option>
+                                        <option value="Lifestyle" <%=post.category==='Lifestyle' ? 'selected' : '' %>>Lifestyle</option>
+                                        <option value="Travel" <%=post.category==='Travel' ? 'selected' : '' %>>Travel</option>
+                                        <option value="Food" <%=post.category==='Food' ? 'selected' : '' %>>Food</option>
+                                        <option value="Health" <%=post.category==='Health' ? 'selected' : '' %>>Health</option>
+                                        <option value="Education" <%=post.category==='Education' ? 'selected' : '' %>>Education</option>
+                                        <option value="General" <%=post.category==='General' ? 'selected' : '' %>>General</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="tags" class="form-label">Tags</label>
+                                    <input type="text" class="form-control" id="tags" name="tags" 
+                                        value="<%= post.tags ? post.tags.join(', ') : '' %>" 
+                                        placeholder="Enter tags separated by commas...">
+                                </div>
+                            </div>
+
+                            <div class="current-image-section">
+                                <div class="current-image-title">Current Image</div>
+                                <img src="<%= post.image %>" alt="Current Post Image" class="edit-image"
+                                     onerror="this.onerror=null;this.src='/images/default-post.jpg';">
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="image" class="form-label">Change Image (Optional)</label>
+                                <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                                <small class="text-muted">Choose a new image to replace the current one</small>
+                            </div>
+
+                            <div class="button-group">
+                                <button type="submit" class="btn-save">
+                                    <i class="fas fa-save me-2"></i>Save Changes
+                                </button>
+                                <a href="/user/dashboard" class="btn-cancel">
+                                    <i class="fas fa-times me-2"></i>Cancel
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h5>BlogSphere</h5>
+                    <p>Share your stories, connect with writers, and discover amazing content from around the world.</p>
+                </div>
+                <div class="footer-section">
+                    <h5>Quick Links</h5>
+                    <a href="#">About Us</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+                <div class="footer-section">
+                    <h5>Connect With Us</h5>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 BlogSphere. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function () {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+                navbar.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+            } else {
+                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                navbar.style.boxShadow = 'none';
+            }
+        });
+
+        // Animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function (entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const animatedElements = document.querySelectorAll('.page-header, .content-section, .edit-form-card');
+
+            animatedElements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+        });
+
+        // Form validation feedback
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const title = document.getElementById('title').value.trim();
+            const content = document.getElementById('content').value.trim();
+            
+            if (!title || !content) {
+                e.preventDefault();
+                alert('Please fill in all required fields.');
+            }
+        });
+    </script>
+</body>
+
+</html>

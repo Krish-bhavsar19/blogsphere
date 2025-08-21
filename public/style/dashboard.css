@@ -1,0 +1,235 @@
+.navbar-nav .nav-link:hover {
+                color: var(--warm-orange) !important;
+                background: none !important;
+                transition: none !important;
+            }
+            .dashboard-container {
+                padding-top: 2rem;
+                min-height: 100vh;
+                background: var(--soft-gray);
+            }
+
+            .sidebar {
+                background: white;
+                border-radius: 0;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+                padding: 2rem;
+                height: fit-content;
+                position: sticky;
+                top: 100px;
+            }
+
+            .profile-section {
+                text-align: center;
+                margin-bottom: 2rem;
+                padding-bottom: 2rem;
+                border-bottom: 1px solid var(--soft-gray);
+            }
+
+            .profile-avatar {
+                width: 80px;
+                height: 80px;
+                border-radius: 50%;
+                object-fit: cover;
+                margin-bottom: 1rem;
+                border: 3px solid var(--warm-orange);
+            }
+
+            .profile-section h5 {
+                color: var(--dark-brown);
+                font-weight: 700;
+                margin: 0;
+            }
+
+            .nav-link {
+                color: var(--text-dark);
+                padding: 1rem;
+                border-radius: 0;
+                margin-bottom: 0.5rem;
+                transition: all 0.3s ease;
+                font-weight: 500;
+            }
+
+            .navbar-brand {
+                font-weight: 800;
+                font-size: 1.5rem;
+                color: var(--dark-brown) !important;
+                letter-spacing: -0.5px;
+            }
+
+            .navbar-nav .nav-link:hover {
+                color: var(--warm-orange) !important;
+            }
+
+            .main-content {
+                background: white;
+                border-radius: 0;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+                padding: 2rem;
+                margin-bottom: 2rem;
+            }
+
+            .main-content h3 {
+                color: var(--dark-brown);
+                font-weight: 800;
+                margin-bottom: 2rem;
+                text-transform: uppercase;
+                letter-spacing: -0.5px;
+            }
+
+            .stats-card {
+                background: var(--primary-beige);
+                padding: 1.5rem;
+                border-radius: 0;
+                border: 1px solid rgba(0, 0, 0, 0.05);
+                transition: all 0.3s ease;
+            }
+
+            .stats-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            }
+
+            .stats-card h4 {
+                color: var(--dark-brown);
+                font-weight: 900;
+                font-size: 2rem;
+            }
+
+            .stats-card small {
+                color: var(--text-light);
+                font-weight: 500;
+            }
+
+            .stats-card .icon {
+                font-size: 2.5rem;
+                color: var(--warm-orange);
+            }
+
+            .post-card {
+                border: none;
+                border-radius: 0;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+                transition: all 0.3s ease;
+                height: 100%;
+            }
+
+            .post-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            }
+
+            .post-card .card-title {
+                color: var(--dark-brown);
+                font-weight: 700;
+                font-size: 1.2rem;
+            }
+
+            .post-card .card-text {
+                color: var(--text-light);
+                line-height: 1.6;
+            }
+
+            .badge {
+                background: var(--warm-orange) !important;
+                color: white;
+                font-weight: 600;
+                padding: 0.5rem 1rem;
+            }
+
+            .like-btn {
+                background: none;
+                border: none;
+                color: var(--text-light);
+                padding: 0.5rem;
+                transition: all 0.3s ease;
+            }
+
+            .like-btn:hover {
+                color: var(--warm-orange);
+            }
+
+            .like-btn .text-danger {
+                color: var(--warm-orange) !important;
+            }
+
+            .empty-state {
+                text-align: center;
+                padding: 4rem 2rem;
+            }
+
+            .empty-state i {
+                color: var(--text-light);
+                margin-bottom: 1rem;
+            }
+
+            .empty-state h5 {
+                color: var(--dark-brown);
+                margin-bottom: 0.5rem;
+            }
+
+            .empty-state p {
+                color: var(--text-light);
+                margin-bottom: 2rem;
+            }
+
+            .like-count,
+            .like-count *,
+            .like-btn,
+            .like-btn * {
+                text-decoration: none !important;
+                border-bottom: none !important;
+            }
+
+            .like-btn .fa-heart.text-danger {
+                color: #e74c3c !important;
+            }
+
+            @media (max-width: 768px) {
+                .sidebar {
+                    position: static;
+                    margin-bottom: 2rem;
+                }
+
+                .stats-card {
+                    margin-bottom: 1rem;
+                }
+            }
+
+            .btn-sm.btn-outline-primary {
+                font-size: 0.85rem;
+                padding: 0.35rem 0.7rem;
+                border-radius: 0.2rem;
+                border-color: var(--dark-brown);
+                color: var(--dark-brown);
+            }
+
+            .btn-sm.btn-outline-primary:hover {
+                background-color: var(--dark-brown);
+                border-color: var(--dark-brown);
+                color: white;
+            }
+
+            .btn-sm.btn-outline-primary i {
+                font-size: 1em;
+                margin-right: 0.3em;
+            }
+
+            .btn-sm.btn-primary,
+            .btn-sm.btn-outline-primary {
+                font-size: 0.85rem;
+                padding: 0.35rem 0.7rem;
+                border-radius: 0.2rem;
+            }
+
+            .btn-sm.btn-primary i,
+            .btn-sm.btn-outline-primary i {
+                font-size: 1em;
+                margin-right: 0.3em;
+            }
+
+            .nav-link:hover {
+                background: var(--primary-beige);
+                color: var(--dark-brown);
+                transform: none;
+            }

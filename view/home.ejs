@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlogSphere - Share Your Stories</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style/theme.css">
+    <link rel="stylesheet" href="/style/home.css">
+</head>
+
+<body>
+    <!-- Loader -->
+    <div class="loader-container" id="loader">
+        <div class="loader">
+            <div class="loader-text">BlogSphere</div>
+            <div class="loader-bar">
+                <div class="loader-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/"><i class="fas fa-blog"></i> BlogSphere</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#posts">Stories</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#categories">Topics</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center gap-3">
+                    <a href="/search" class="search-icon" aria-label="Search">
+                        <i class="fas fa-search"></i>
+                    </a>
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-link position-relative dropdown-toggle search-icon p-0"
+                            id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false"
+                            aria-label="Notifications">
+                            <i class="fas fa-bell"></i>
+                            <% if (user && user.notifications && user.notifications.filter(n => !n.read).length > 0) { %>
+                                <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                    style="font-size:0.7rem;" id="notificationBadge">
+                                    <%= user.notifications.filter(n => !n.read).length %>
+                                </span>
+                            <% } %>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end p-2" aria-labelledby="notificationDropdown"
+                            style="min-width: 300px; max-width: 350px; max-height: 350px; overflow-y: auto;" id="notificationList">
+                            <% if (user && user.notifications && user.notifications.length > 0) { %>
+                                <% user.notifications.slice(-5).reverse().forEach(notification => { %>
+                                    <li class="dropdown-item <%= notification.read ? '' : 'fw-bold' %>" data-id="<%= notification._id %>">
+                                        <%= notification.text %><br>
+                                        <small class="text-muted">
+                                            <%= new Date(notification.createdAt).toLocaleString() %>
+                                        </small>
+                                    </li>
+                                <% }) %>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><button class="dropdown-item text-center text-primary" id="markAllReadBtn">Mark all as read</button></li>
+                            <% } else { %>
+                                <li class="dropdown-item text-muted">No notifications</li>
+                            <% } %>
+                        </ul>
+                    </div>
+                    <% if (typeof user !== 'undefined' && user) { %>
+                        <div class="dropdown">
+                            <button class="cta-button dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <%= user.username %>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end profile-dropdown">
+                                <li><a class="dropdown-item" href="/user/dashboard">Dashboard</a></li>
+                                <li><a class="dropdown-item" href="/user/profile">Profile</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="/user/logout">Logout</a></li>
+                            </ul>
+                        </div>
+                    <% } else { %>
+                        <a href="/user/login" class="cta-button">Login</a>
+                        <a href="/user/signup" class="cta-button outline">Sign Up</a>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Change the Course<br>
+                    of Stories
+                </h1>
+                <p class="hero-subtitle">
+                    Everything we do is designed to rebuild voices and share perspectives,
+                    in order to break free from the cycle of silence. With every story you share,
+                    you're helping to change the course of someone's day.
+                </p>
+                <div class="cta-buttons">
+                    <% if (typeof user !== 'undefined' && user) { %>
+                        <a href="/user/dashboard" class="cta-button">Start Writing</a>
+                    <% } else { %>
+                        <a href="/user/login" class="cta-button">Start Writing</a>
+                    <% } %>
+                    <a href="#posts" class="cta-button outline">Read Stories</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission Statement -->
+    <section class="mission-section">
+        <div class="container">
+            <h2 class="mission-title">
+                We Believe in Stories,<br>
+                Until They Believe in<br>
+                Themselves Again.
+            </h2>
+            <p class="mission-text">
+                Every story shared is designed to rebuild connection and understanding.
+                Through experiences that promote empathy and respect, we can spark and nurture
+                a sense of community for those seeking to share their voice with the world.
+            </p>
+        </div>
+    </section>
+
+    <!-- Featured Posts -->
+    <section class="posts-section" id="posts">
+        <div class="container">
+            <h2 class="section-title">Stories to Support</h2>
+            <p class="section-subtitle">Discover meaningful content from our community</p>
+
+            <div class="post-grid" id="postsGrid">
+                <% if (typeof posts !== 'undefined' && posts && posts.length > 0) { %>
+                    <% posts.forEach(post => { %>
+                        <div class="post-card">
+                            <img src="<%= post.image || 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=400&h=250&fit=crop' %>"
+                                alt="<%= post.title %>" class="post-image">
+                            <div class="post-content">
+                                <span class="post-category">
+                                    <%= post.category || 'General' %>
+                                </span>
+                                <h3 class="post-title">
+                                    <%= post.title %>
+                                </h3>
+                                <p class="post-excerpt">
+                                    <%= post.content ? (post.content.length > 120 ? post.content.substring(0, 120) + '...' : post.content) : 'No content available' %>
+                                </p>
+                                <div class="post-meta">
+                                    <div class="author-info">
+                                        <img src="<%= post.author && post.author.profileImageURL ? post.author.profileImageURL : 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face' %>"
+                                            alt="<%= post.author && post.author.username ? post.author.username : 'Unknown' %>"
+                                            class="author-avatar">
+                                        <span class="author-name">
+                                            <%= post.author && post.author.username ? post.author.username : 'Unknown Author' %>
+                                        </span>
+                                    </div>
+                                    <div class="like-section">
+                                        <button class="like-btn" data-post-id="<%= post._id %>"
+                                            data-logged-in="<%= user ? 'true' : 'false' %>">
+                                            <i
+                                                class="fas fa-heart <%= post.likes && user && post.likes.some(like => like.toString() === user._id.toString()) ? 'text-danger' : 'text-muted' %>"></i>
+                                        </button>
+                                        <span>
+                                            <%= post.likes ? post.likes.length : 0 %>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="post-actions mt-3">
+                                    <a href="/posts/<%= post._id %>" class="cta-button"
+                                        style="padding: 0.5rem 1rem; font-size: 0.9rem;">Read More</a>
+                                </div>
+                            </div>
+                        </div>
+                    <% }) %>
+                <% } else { %>
+                    <!-- Sample posts for demonstration -->
+                    <div class="post-card">
+                        <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=400&h=250&fit=crop"
+                            alt="Technology" class="post-image">
+                        <div class="post-content">
+                            <span class="post-category">Technology</span>
+                            <h3 class="post-title">The Future of Digital Connection</h3>
+                            <p class="post-excerpt">Exploring how technology shapes our relationships and
+                                builds bridges between communities...</p>
+                            <div class="post-meta">
+                                <div class="author-info">
+                                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face"
+                                        alt="Author" class="author-avatar">
+                                    <span class="author-name">Alex Johnson</span>
+                                </div>
+                                <div class="like-section">
+                                    <button class="like-btn"><i class="fas fa-heart"></i></button>
+                                    <span>24</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="post-card">
+                        <img src="https://images.unsplash.com/photo-1544027993-37dbfe43562a?w=400&h=250&fit=crop"
+                            alt="Lifestyle" class="post-image">
+                        <div class="post-content">
+                            <span class="post-category">Lifestyle</span>
+                            <h3 class="post-title">Finding Balance in Modern Life</h3>
+                            <p class="post-excerpt">A journey through wellness practices that support mental
+                                health and personal growth...</p>
+                            <div class="post-meta">
+                                <div class="author-info">
+                                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop&crop=face"
+                                        alt="Author" class="author-avatar">
+                                    <span class="author-name">Sarah Chen</span>
+                                </div>
+                                <div class="like-section">
+                                    <button class="like-btn"><i class="fas fa-heart"></i></button>
+                                    <span>18</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="post-card">
+                        <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400&h=250&fit=crop"
+                            alt="Education" class="post-image">
+                        <div class="post-content">
+                            <span class="post-category">Education</span>
+                            <h3 class="post-title">Learning Never Stops</h3>
+                            <p class="post-excerpt">How continuous learning shapes our understanding of the
+                                world and ourselves...</p>
+                            <div class="post-meta">
+                                <div class="author-info">
+                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face"
+                                        alt="Author" class="author-avatar">
+                                    <span class="author-name">Marcus Davis</span>
+                                </div>
+                                <div class="like-section">
+                                    <button class="like-btn"><i class="fas fa-heart"></i></button>
+                                    <span>31</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+
+            <div class="text-center">
+                <a href="/allposts" class="cta-button">Read More Stories</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trending Posts Slider -->
+    <section class="trending-section" id="trending">
+        <div class="container">
+            <h2 class="section-title">Top Liked Stories</h2>
+            <p class="section-subtitle">Explore the most loved content from our community</p>
+
+            <% if (typeof trendingPosts !== 'undefined' && trendingPosts && trendingPosts.length > 0) { %>
+                <div class="slider-container">
+                    <div class="slider-wrapper">
+                        <div class="slider-track" id="trendingSlider">
+                            <% trendingPosts.forEach(post => { %>
+                                <div class="slider-slide">
+                                    <div class="post-card">
+                                        <img src="<%= post.image || 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=400&h=250&fit=crop' %>"
+                                            alt="<%= post.title %>" class="post-image">
+                                        <div class="post-content">
+                                            <span class="post-category">
+                                                <%= post.category || 'General' %>
+                                            </span>
+                                            <h3 class="post-title">
+                                                <%= post.title %>
+                                            </h3>
+                                            <p class="post-excerpt">
+                                                <%= post.content ? (post.content.length > 120 ? post.content.substring(0, 120) + '...' : post.content) : 'No content available' %>
+                                            </p>
+                                            <div class="post-meta">
+                                                <div class="author-info">
+                                                    <img src="<%= post.author && post.author.profileImageURL ? post.author.profileImageURL : 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face' %>"
+                                                        alt="<%= post.author && post.author.username ? post.author.username : 'Unknown' %>"
+                                                        class="author-avatar">
+                                                    <span class="author-name">
+                                                        <%= post.author && post.author.username ? post.author.username : 'Unknown Author' %>
+                                                    </span>
+                                                </div>
+                                                <div class="like-section">
+                                                    <button class="like-btn" data-post-id="<%= post._id %>"
+                                                        data-logged-in="<%= user ? 'true' : 'false' %>">
+                                                        <i
+                                                            class="fas fa-heart <%= post.likes && user && post.likes.some(like => like.toString() === user._id.toString()) ? 'text-danger' : 'text-muted' %>"></i>
+                                                    </button>
+                                                    <span>
+                                                        <%= post.likes ? post.likes.length : 0 %>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="post-actions mt-3">
+                                                <a href="/posts/<%= post._id %>" class="cta-button"
+                                                    style="padding: 0.5rem 1rem; font-size: 0.9rem;">Read More</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% }) %>
+                        </div>
+                    </div>
+                    <button class="slider-prev" id="trendingPrev" aria-label="Previous slide">&#10094;</button>
+                    <button class="slider-next" id="trendingNext" aria-label="Next slide">&#10095;</button>
+                </div>
+            <% } else { %>
+                <div class="empty-state text-center">
+                    <i class="fas fa-fire fa-3x mb-3" style="color: var(--warm-orange);"></i>
+                    <h4>No top liked posts yet</h4>
+                    <p class="text-muted">Like some posts to help them trend!</p>
+                    <% if (user) { %>
+                        <a href="/posts/" class="cta-button">Explore Posts to Like</a>
+                    <% } else { %>
+                        <a href="/user/login" class="cta-button">Log in to Like Posts</a>
+                    <% } %>
+                </div>
+            <% } %>
+        </div>
+    </section>
+
+    <!-- Split Content Section -->
+    <div class="split-section">
+        <div class="split-content">
+            <h2 class="split-title">Our Impact</h2>
+            <p class="split-text">
+                The thing is, we don't save anyone. What we do is provide a safe space for people to change
+                the course of their own stories. After many years of feeling unheard, restoring voice is
+                foundational for connection.
+            </p>
+            <a href="#about" class="cta-button">Learn More</a>
+        </div>
+        <div style="margin-top:60px ;">
+            <video width="100%" height="auto" autoplay muted loop playsinline>
+                <source class="split-image" src="/images/video.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+
+    <!-- Categories -->
+    <section class="categories-section" id="categories">
+        <div class="container">
+            <h2 class="section-title">Explore Topics</h2>
+            <p class="section-subtitle">Find stories that resonate with you</p>
+
+            <div class="category-grid">
+                <a href="/posts/category/Technology" class="category-card">
+                    <i class="fas fa-laptop-code category-icon"></i>
+                    <h3 class="category-title">Technology</h3>
+                    <p class="category-desc">Digital innovation and future thinking</p>
+                </a>
+
+                <a href="/posts/category/Lifestyle" class="category-card">
+                    <i class="fas fa-heart category-icon"></i>
+                    <h3 class="category-title">Lifestyle</h3>
+                    <p class="category-desc">Health, mindfulness, and balanced living</p>
+                </a>
+
+                <a href="/posts/category/Travel" class="category-card">
+                    <i class="fas fa-plane-departure category-icon"></i>
+                    <h3 class="category-title">Travel</h3>
+                    <p class="category-desc">Adventure, destinations, and travel stories</p>
+                </a>
+
+                <a href="/posts/category/Food" class="category-card">
+                    <i class="fas fa-utensils category-icon"></i>
+                    <h3 class="category-title">Food</h3>
+                    <p class="category-desc">Culinary journeys and delicious stories</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter-section">
+        <div class="container">
+            <h2 class="newsletter-title">Words of Goodness</h2>
+            <p class="newsletter-subtitle">Messages of inspiration & community</p>
+            <form class="newsletter-form">
+                <input type="email" class="newsletter-input" placeholder="Enter your email address for good">
+                <button type="submit" class="newsletter-btn">Subscribe</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h5>BlogSphere</h5>
+                    <p>Share your stories, connect with writers, and discover meaningful content that changes
+                        perspectives.</p>
+                </div>
+                <div class="footer-section">
+                    <h5>Community</h5>
+                    <a href="#">About Us</a>
+                    <a href="#">Stories</a>
+                    <a href="#">Writers</a>
+                    <a href="#">Guidelines</a>
+                </div>
+                <div class="footer-section">
+                    <h5>Support</h5>
+                    <a href="#">Help Center</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Privacy</a>
+                    <a href="#">Terms</a>
+                </div>
+                <div class="footer-section">
+                    <h5>Connect</h5>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.instagram.com/_krish_bhavsar_/"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 BlogSphere. All rights reserved. Always was, always will be about authentic stories.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+     <script src="/script/home.js"></script>
+</body>
+
+</html>

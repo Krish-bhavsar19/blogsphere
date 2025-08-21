@@ -1,0 +1,271 @@
+.author-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: none;
+            background: none;
+        }
+        /* Match Home/Stories nav link font size to home page */
+        .navbar-nav .nav-link {
+            font-size: 0.95rem !important;
+        }
+        /* Remove underline/lines on hover and active for Home and Stories links */
+        .navbar-nav .nav-link::after,
+        .navbar-nav .nav-link:hover::after,
+        .navbar-nav .nav-link.active::after {
+            content: none !important;
+            display: none !important;
+            border: none !important;
+        }
+        /* Remove underline/lines on hover for Home and Stories links */
+        .navbar-nav .nav-link, .navbar-nav .nav-link:focus, .navbar-nav .nav-link:active, .navbar-nav .nav-link:hover {
+            text-decoration: none !important;
+            box-shadow: none !important;
+            border-bottom: none !important;
+        }
+        :root {
+            --primary-beige: #F7F3E9;
+            --dark-brown: #2C1810;
+            --medium-brown: #8B4513;
+            --warm-orange: #D2691E;
+            --cream: #FFF8DC;
+            --soft-gray: #F5F5F5;
+            --text-dark: #1a1a1a;
+            --text-light: #666;
+        }
+        body {
+            background: var(--cream);
+            color: var(--text-dark);
+        }
+        .navbar {
+            background: rgba(255,255,255,0.95);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: var(--dark-brown) !important;
+        }
+        .nav-link {
+            color: var(--text-dark) !important;
+            font-weight: 500;
+        }
+        .nav-link:hover {
+            color: var(--warm-orange) !important;
+        }
+        .btn-primary, .btn-outline-primary {
+            background: var(--dark-brown);
+            border: 2px solid var(--dark-brown);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-radius: 0;
+            transition: all 0.3s;
+        }
+        .btn-primary:hover, .btn-outline-primary:hover {
+            background: var(--warm-orange);
+            border-color: var(--warm-orange);
+            color: white;
+        }
+        /* Added styles for cta-button and search-icon to match provided navbar */
+        .cta-button {
+            background: var(--dark-brown);
+            color: white;
+            border: none;
+            border-radius: 0.2rem;
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        .cta-button:hover {
+            background: var(--warm-orange);
+            color: white;
+        }
+        .cta-button.outline {
+            background: transparent;
+            border: 2px solid var(--dark-brown);
+            color: var(--dark-brown);
+        }
+        .cta-button.outline:hover {
+            background: var(--warm-orange);
+            border-color: var(--warm-orange);
+            color: white;
+        }
+        .search-icon {
+            color: var(--text-dark);
+            font-size: 1.2rem;
+            text-decoration: none;
+        }
+        .search-icon:hover {
+            color: var(--warm-orange);
+        }
+        .main-section {
+            background: var(--primary-beige);
+            padding: 5rem 0 3rem;
+        }
+        .post-card {
+            background: white;
+            border-radius: 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.3s;
+        }
+        .post-title {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--dark-brown);
+        }
+        .author-info .author-name {
+            color: var(--dark-brown);
+            font-weight: 700;
+        }
+        .author-info .post-date {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+        .category-badge {
+            background: var(--warm-orange);
+            color: white;
+            padding: 0.3rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-block;
+            border-radius: 0.2rem;
+        }
+        .post-text p {
+            color: var(--text-dark);
+            font-size: 1.1rem;
+            margin-bottom: 1.2rem;
+        }
+        .like-btn {
+            background: transparent;
+            color: var(--dark-brown);
+            border: none;
+            border-radius: 0;
+            padding: 0;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-right: 0.5rem;
+            transition: color 0.3s;
+            display: inline-flex;
+            align-items: center;
+        }
+        .like-btn .fa-heart {
+            margin-right: 0.15em;
+        }
+        .like-btn:hover {
+            color: var(--warm-orange);
+            background: transparent;
+        }
+        .like-count {
+            font-weight: 600;
+            color: var(--warm-orange);
+        }
+        .comments-section {
+            background: var(--soft-gray);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+        .comments-list {
+            margin-bottom: 1rem;
+        }
+        .comment-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+        }
+        .comment-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .comment-author {
+            color: var(--dark-brown);
+            font-weight: 700;
+        }
+        .comment-text {
+            color: var(--text-dark);
+        }
+        .no-comments, .login-prompt {
+            color: var(--text-light);
+            font-style: italic;
+        }
+        .comment-form {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .comment-form input[type="text"] {
+            flex: 1;
+            border: 2px solid var(--soft-gray);
+            border-radius: 0.2rem;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+        }
+        .comment-form button {
+            background: var(--warm-orange);
+            color: white;
+            border: none;
+            border-radius: 0.2rem;
+            padding: 0.5rem 1.2rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s;
+        }
+        .comment-form button:hover {
+            background: var(--dark-brown);
+        }
+        .footer {
+            background: var(--text-dark);
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+        .footer h5 {
+            color: white;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .footer a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+        }
+        .footer a:hover {
+            color: var(--warm-orange);
+        }
+        .footer .fab {
+            color: rgba(255,255,255,0.8);
+        }
+        .footer .fab:hover {
+            color: var(--warm-orange);
+        }
+        .share-btn, .comment-toggle-btn {
+            background: var(--dark-brown);
+            color: white;
+            border: none;
+            border-radius: 0.2rem;
+            padding: 0.5rem 1.2rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-right: 0.5rem;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+        }
+        .share-btn:hover, .comment-toggle-btn:hover {
+            background: var(--warm-orange);
+            color: white;
+        }
