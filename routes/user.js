@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { randomBytes , createHmac } = require("crypto");
+const { randomBytes, createHmac } = require("crypto");
 const { user } = require("../Model/user");
 const { Post } = require("../Model/post");
 const { setUser, getUser } = require('../service/auth');
@@ -54,7 +54,7 @@ router
   })
 
   .post('/login', async (req, res) => {
-    const { password, email, redirect} = req.body;
+    const { password, email, redirect } = req.body;
     const redirectPath = redirect || '/';
     try {
       const foundUser = await user.matchPassword(email, password);
@@ -102,7 +102,7 @@ router
         posts: posts,
         totalPosts,
         totalLikes,
-        totalComments 
+        totalComments
       });
     } catch (err) {
       res.redirect("/user/login");
@@ -175,11 +175,11 @@ router.post('/forgot-password', async (req, res) => {
 
 
     if (foundUser.isGoogleUser && !foundUser.password) {
-  return res.render('forgot-password', {
-    error: 'This account was created using Google login. Use Google to sign in.',
-    success: null
-  });
-}
+      return res.render('forgot-password', {
+        error: 'This account was created using Google login. Use Google to sign in.',
+        success: null
+      });
+    }
 
     // Generate and save reset token
     const token = randomBytes(32).toString('hex');
@@ -206,10 +206,16 @@ router.post('/forgot-password', async (req, res) => {
       to: foundUser.email,
       from: process.env.EMAIL_USER,
       subject: 'Password Reset Link',
-      html: `<p>You requested a password reset.</p>
-             <p>Click <a href="https://blogsphere-3e6g.onrender.com/user/reset-password/${token}">here</a> to reset your password. This link expires in 1 hour.</p>`
+      html: `
+    <p>You requested a password reset.</p>
+    <p>
+      Click <a href="${process.env.APP_BASE_URL}/user/reset-password/${token}">
+      here</a> to reset your password. This link expires in 1 hour.
+    </p>
+  `
     });
-    
+
+
 
     // Check if email was accepted and has a valid response
     if (mailResponse.accepted.includes(foundUser.email) && mailResponse.response.includes('OK')) {
