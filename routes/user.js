@@ -207,7 +207,7 @@ router.post('/forgot-password', async (req, res) => {
       from: process.env.EMAIL_USER,
       subject: 'Password Reset Link',
       html: `<p>You requested a password reset.</p>
-             <p>Click <a href="http://localhost:8000/user/reset-password/${token}">here</a> to reset your password. This link expires in 1 hour.</p>`
+             <p>Click <a href="https://blogsphere-3e6g.onrender.com/user/reset-password/${token}">here</a> to reset your password. This link expires in 1 hour.</p>`
     });
     
 
