@@ -209,7 +209,7 @@ router.post('/forgot-password', async (req, res) => {
       html: `
     <p>You requested a password reset.</p>
     <p>
-      Click <a href="${process.env.APP_BASE_URL}/user/reset-password/${token}">
+      Click <a href="https://blogsphere-3e6g.onrender.com/user/reset-password/${token}">
       here</a> to reset your password. This link expires in 1 hour.
     </p>
   `
