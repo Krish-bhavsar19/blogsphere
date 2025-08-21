@@ -4,8 +4,13 @@ const jwt = require('jsonwebtoken');
 const router = express.Router();
 
 router.get('/google',
+  (req, res, next) => {
+    console.log("Redirect URI being used:", process.env.GOOGLE_CALLBACK_URL);
+    next();
+  },
   passport.authenticate('google', { scope: ['profile', 'email'] })
 );
+
 
 router.get('/google/callback',
   passport.authenticate('google', { session: false, failureRedirect: '/login' }),
