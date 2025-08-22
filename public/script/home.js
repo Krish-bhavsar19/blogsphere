@@ -1,3 +1,9 @@
+//uts to ist time
+document.querySelectorAll('[data-created]').forEach(el => {
+  const date = new Date(el.dataset.created);
+  el.textContent = date.toLocaleString();
+});
+
 // Loader functionality for first visit only
         document.addEventListener('DOMContentLoaded', function () {
             const loader = document.getElementById('loader');
