@@ -7,29 +7,30 @@ const { user } = require('../Model/user');
 const { getUser } = require('../service/auth');
 const moment = require('moment');
 
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const cloudinary = require('cloudinary').v2;
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'public/images');
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    cb(null, uniqueSuffix + path.extname(file.originalname));
-  }
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
-const fileFilter = (req, file, cb) => {
-  const allowedTypes = /jpeg|jpg|png|gif|webp/;
-  const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
-  const mimetype = allowedTypes.test(file.mimetype);
-  if (extname && mimetype) {
-    cb(null, true);
-  } else {
-    cb(new Error('Only image files are allowed!'));
-  }
-};
 
-const upload = multer({ storage, fileFilter });
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'blogsphere',
+    allowed_formats: ['jpg', 'jpeg', 'png', 'gif', 'webp']
+  },
+});
+
+// 3. multer upload
+const upload = multer({ storage });
+
+module.exports = upload;
+
 
 const requireauth = async (req, res, next) => {
   const token = req.cookies.uid;
@@ -56,34 +57,39 @@ const requireauth = async (req, res, next) => {
 };
 router
   .post('/create', requireauth, upload.single('image'), async (req, res) => {
-    try {
-      const { title, content, category, tags } = req.body;
-      const authorId = req.user._id;
+  try {
+    const { title, content, category, tags } = req.body;
+    const authorId = req.user._id;
 
-      if (!title || !content) {
-        return res.status(400).json({ error: "Title and content are required" });
-      }
-
-      const imagePath = req.file ? `/images/${req.file.filename}` : '/images/default-post.jpg';
-      const tagArray = tags ? tags.split(',').map(tag => tag.trim()) : [];
-
-      const newPost = new Post({
-        title,
-        content,
-        author: authorId,
-        image: imagePath,
-        category: category || 'General',
-        tags: tagArray
-      });
-
-      await newPost.save();
-
-      res.redirect('/user/dashboard');
-    } catch (error) {
-      console.error('Post creation error:', error);
-      res.status(500).json({ error: "Failed to create post" });
+    if (!title || !content) {
+      return res.status(400).json({ error: "Title and content are required" });
     }
-  })
+
+
+    const imagePath = req.file 
+      ? req.file.path || req.file.secure_url
+      : "https://res.cloudinary.com/dcauq7cmr/image/upload/v1234567890/blogsphere/default-post.jpg";
+
+    const tagArray = tags ? tags.split(',').map(tag => tag.trim()) : [];
+
+    const newPost = new Post({
+      title,
+      content,
+      author: authorId,
+      image: imagePath,   
+      category: category || 'General',
+      tags: tagArray
+    });
+
+    await newPost.save();
+
+    res.redirect('/user/dashboard');
+  } catch (error) {
+    console.error('Post creation error:', error);
+    res.status(500).json({ error: "Failed to create post" });
+  }
+})
+
 
   // Like/Dislike a post
   .post('/:id/like', requireauth, async (req, res) => {
@@ -131,32 +137,28 @@ router
   })
 
   // Update post
-  .post('/:id/edit', requireauth, upload.single('image'), async (req, res) => {
-    const post = await Post.findById(req.params.id);
-    if (!post || post.author.toString() !== req.user._id.toString()) {
-      return res.status(403).send('Unauthorized');
-    }
-    const { title, content, category, tags } = req.body;
-    post.title = title;
-    post.content = content;
-    post.category = category;
-    post.tags = tags ? tags.split(',').map(tag => tag.trim()) : [];
-    if (req.file) {
-      post.image = `/images/${req.file.filename}`;
-    }
-    await post.save();
-    res.redirect('/user/dashboard');
-  })
+  // Update post
+.post('/:id/edit', requireauth, upload.single('image'), async (req, res) => {
+  const post = await Post.findById(req.params.id);
+  if (!post || post.author.toString() !== req.user._id.toString()) {
+    return res.status(403).send('Unauthorized');
+  }
 
-  // Delete post
-  .post('/:id/delete', requireauth, async (req, res) => {
-    const post = await Post.findById(req.params.id);
-    if (!post || post.author.toString() !== req.user._id.toString()) {
-      return res.status(403).send('Unauthorized');
-    }
-    await Post.deleteOne({ _id: req.params.id });
-    res.redirect('/user/dashboard');
-  })
+  const { title, content, category, tags } = req.body;
+  post.title = title;
+  post.content = content;
+  post.category = category;
+  post.tags = tags ? tags.split(',').map(tag => tag.trim()) : [];
+
+  if (req.file) {
+    // ✅ Use Cloudinary path or secure_url
+    post.image = req.file.path || req.file.secure_url;
+  }
+
+  await post.save();
+  res.redirect('/user/dashboard');
+})
+
 
   //read More
   .get('/:id', async (req, res) => {
