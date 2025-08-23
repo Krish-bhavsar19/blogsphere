@@ -70,8 +70,8 @@
                     <div class="post-grid" id="postsGrid">
                         <% posts.forEach(post=> { %>
                             <div class="post-card">
-                                <img src="<%= post.image || '/images/default-post.jpg' %>" alt="<%= post.title %>"
-                                    class="post-image" onerror="this.onerror=null;this.src='/images/default-post.jpg';">
+                               <img src="<%= post.image || 'https://res.cloudinary.com/<cloud_name>/image/upload/v123456/default-post.jpg' %>" alt="<%= post.title %>"
+                                class="post-image">
                                 <div class="post-content">
                                     <span class="post-category">
                                         <%= post.category || categoryName || 'General' %>
