@@ -293,8 +293,8 @@
                             <% trendingPosts.forEach(post=> { %>
                                 <div class="slider-slide">
                                     <div class="post-card">
-                                        <img src="<%= post.image || 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=400&h=250&fit=crop' %>"
-                                            alt="<%= post.title %>" class="post-image">
+                                        <img src="<%= post.image || 'https://res.cloudinary.com/<cloud_name>/image/upload/v123456/default-post.jpg' %>" alt="<%= post.title %>"
+                                        class="post-image">
                                         <div class="post-content">
                                             <span class="post-category">
                                                 <%= post.category || 'General' %>
