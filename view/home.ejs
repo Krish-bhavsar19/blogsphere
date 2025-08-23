@@ -154,7 +154,7 @@
                 <% if (typeof posts !== 'undefined' && posts && posts.length > 0) { %>
                     <% posts.forEach(post => { %>
                         <div class="post-card">
-                            <img src="<%= post.image || 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=400&h=250&fit=crop' %>"
+                            <img src="/<%= post.image || 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=400&h=250&fit=crop' %>"
                                 alt="<%= post.title %>" class="post-image">
                             <div class="post-content">
                                 <span class="post-category">
