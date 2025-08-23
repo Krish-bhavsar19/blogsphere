@@ -89,7 +89,15 @@ router
     res.status(500).json({ error: "Failed to create post" });
   }
 })
-
+  
+.post('/:id/delete', requireauth, async (req, res) => {
+    const post = await Post.findById(req.params.id);
+    if (!post || post.author.toString() !== req.user._id.toString()) {
+      return res.status(403).send('Unauthorized');
+    }
+    await Post.deleteOne({ _id: req.params.id });
+    res.redirect('/user/dashboard');
+  })
 
   // Like/Dislike a post
   .post('/:id/like', requireauth, async (req, res) => {
