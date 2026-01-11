@@ -163,16 +163,11 @@
                 <% if (typeof posts !=='undefined' && posts && posts.length> 0) { %>
                     <% posts.forEach(post=> { %>
                         <div class="post-card">
-<<<<<<< HEAD
                             <img src="<%= post.image || 'https://res.cloudinary.com/<cloud_name>/image/upload/v123456/default-post.jpg' %>"
                                 alt="<%= post.title %>" class="post-image">
-=======
-                            <img src="<%= post.image || 'https://res.cloudinary.com/<cloud_name>/image/upload/v123456/default-post.jpg' %>" alt="<%= post.title %>"
-                                class="post-image">
->>>>>>> 3b9b676310423076436350c074f26514ac0e4aaa
 
                             <div class="post-content">
-                                <span class="post-category">    
+                                <span class="post-category">
                                     <%= post.category || 'General' %>
                                 </span>
                                 <h3 class="post-title">
@@ -184,18 +179,11 @@
                                 </p>
                                 <div class="post-meta">
                                     <div class="author-info">
-<<<<<<< HEAD
 
                                         <img src="<%= post.author && post.author.profileImageURL ? post.author.profileImageURL : '/images/man-avatar.jpg' %>"
                                             alt="<%= post.author && post.author.username ? post.author.username : 'Unknown' %>"
                                             class="author-avatar"
                                             onerror="this.onerror=null;this.src='/images/man-avatar.jpg';">
-=======
-                                        
-                                        <img src="<%= post.author && post.author.profileImageURL ? post.author.profileImageURL : '/images/man-avatar.jpg' %>"
-                                            alt="<%= post.author && post.author.username ? post.author.username : 'Unknown' %>"
-                                            class="author-avatar" onerror="this.onerror=null;this.src='/images/man-avatar.jpg';">
->>>>>>> 3b9b676310423076436350c074f26514ac0e4aaa
                                         <span class="author-name">
                                             <%= post.author && post.author.username ? post.author.username
                                                 : 'Unknown Author' %>
@@ -309,13 +297,8 @@
                             <% trendingPosts.forEach(post=> { %>
                                 <div class="slider-slide">
                                     <div class="post-card">
-<<<<<<< HEAD
                                         <img src="<%= post.image || 'https://res.cloudinary.com/<cloud_name>/image/upload/v123456/default-post.jpg' %>"
                                             alt="<%= post.title %>" class="post-image">
-=======
-                                        <img src="<%= post.image || 'https://res.cloudinary.com/<cloud_name>/image/upload/v123456/default-post.jpg' %>" alt="<%= post.title %>"
-                                        class="post-image">
->>>>>>> 3b9b676310423076436350c074f26514ac0e4aaa
                                         <div class="post-content">
                                             <span class="post-category">
                                                 <%= post.category || 'General' %>
