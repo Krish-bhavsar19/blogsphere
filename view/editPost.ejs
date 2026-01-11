@@ -153,8 +153,7 @@
 
                             <div class="current-image-section">
                                 <div class="current-image-title">Current Image</div>
-                                <img src="<%= post.image %>" alt="Current Post Image" class="edit-image"
-                                     onerror="this.onerror=null;this.src='/images/default-post.jpg';">
+                                <img src="<%= post.image || 'https://res.cloudinary.com/<cloud_name>/image/upload/v123456/default-post.jpg' %>" alt="Current Post Image" class="edit-image">
                             </div>
 
                             <div class="mb-4">

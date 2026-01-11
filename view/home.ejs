@@ -7,7 +7,8 @@
     <title>BlogSphere - Share Your Stories</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="/style/theme.css">
     <link rel="stylesheet" href="/style/home.css">
 </head>
@@ -27,6 +28,7 @@
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
             <a class="navbar-brand" href="/"><i class="fas fa-blog"></i> BlogSphere</a>
+
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -54,54 +56,61 @@
                             id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false"
                             aria-label="Notifications">
                             <i class="fas fa-bell"></i>
-                            <% if (user && user.notifications && user.notifications.filter(n => !n.read).length > 0) { %>
+                            <% if (user && user.notifications && user.notifications.filter(n=> !n.read).length > 0) { %>
                                 <span
                                     class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
                                     style="font-size:0.7rem;" id="notificationBadge">
-                                    <%= user.notifications.filter(n => !n.read).length %>
+                                    <%= user.notifications.filter(n=> !n.read).length %>
                                 </span>
-                            <% } %>
+                                <% } %>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end p-2" aria-labelledby="notificationDropdown"
-                            style="min-width: 300px; max-width: 350px; max-height: 350px; overflow-y: auto;" id="notificationList">
-                            <% if (user && user.notifications && user.notifications.length > 0) { %>
-                                <% user.notifications.slice(-5).reverse().forEach(notification => { %>
-                                    <li class="dropdown-item <%= notification.read ? '' : 'fw-bold' %>" data-id="<%= notification._id %>">
+                            style="min-width: 300px; max-width: 350px; max-height: 350px; overflow-y: auto;"
+                            id="notificationList">
+                            <% if (user && user.notifications && user.notifications.length> 0) { %>
+                                <% user.notifications.slice(-5).reverse().forEach(notification=> { %>
+                                    <li class="dropdown-item <%= notification.read ? '' : 'fw-bold' %>"
+                                        data-id="<%= notification._id %>">
                                         <%= notification.text %><br>
-                                        <small class="text-muted">
-                                            <%= new Date(notification.createdAt).toLocaleString() %>
-                                        </small>
+                                            <small class="text-muted"
+                                                data-created="<%= notification.createdAt %>"></small>
                                     </li>
-                                <% }) %>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><button class="dropdown-item text-center text-primary" id="markAllReadBtn">Mark all as read</button></li>
-                            <% } else { %>
-                                <li class="dropdown-item text-muted">No notifications</li>
-                            <% } %>
+                                    <% }) %>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+                                        <li><button class="dropdown-item text-center text-primary"
+                                                id="markAllReadBtn">Mark all as read</button></li>
+                                        <% } else { %>
+                                            <li class="dropdown-item text-muted">No notifications</li>
+                                            <% } %>
                         </ul>
                     </div>
-                    <% if (typeof user !== 'undefined' && user) { %>
+                    <% if (typeof user !=='undefined' && user) { %>
                         <div class="dropdown">
-                            <button class="cta-button dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <button class="cta-button dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
                                 <%= user.username %>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end profile-dropdown">
                                 <li><a class="dropdown-item" href="/user/dashboard">Dashboard</a></li>
                                 <li><a class="dropdown-item" href="/user/profile">Profile</a></li>
-                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
                                 <li><a class="dropdown-item" href="/user/logout">Logout</a></li>
                             </ul>
                         </div>
-                    <% } else { %>
-                        <a href="/user/login" class="cta-button">Login</a>
-                        <a href="/user/signup" class="cta-button outline">Sign Up</a>
-                    <% } %>
+                        <% } else { %>
+                            <a href="/user/login" class="cta-button">Login</a>
+                            <a href="/user/signup" class="cta-button outline">Sign Up</a>
+                            <% } %>
                 </div>
             </div>
         </div>
+
     </nav>
+
 
     <!-- Hero Section -->
     <section class="hero-section" id="home">
@@ -117,12 +126,12 @@
                     you're helping to change the course of someone's day.
                 </p>
                 <div class="cta-buttons">
-                    <% if (typeof user !== 'undefined' && user) { %>
+                    <% if (typeof user !=='undefined' && user) { %>
                         <a href="/user/dashboard" class="cta-button">Start Writing</a>
-                    <% } else { %>
-                        <a href="/user/login" class="cta-button">Start Writing</a>
-                    <% } %>
-                    <a href="#posts" class="cta-button outline">Read Stories</a>
+                        <% } else { %>
+                            <a href="/user/login" class="cta-button">Start Writing</a>
+                            <% } %>
+                                <a href="#posts" class="cta-button outline">Read Stories</a>
                 </div>
             </div>
         </div>
@@ -151,11 +160,12 @@
             <p class="section-subtitle">Discover meaningful content from our community</p>
 
             <div class="post-grid" id="postsGrid">
-                <% if (typeof posts !== 'undefined' && posts && posts.length > 0) { %>
-                    <% posts.forEach(post => { %>
+                <% if (typeof posts !=='undefined' && posts && posts.length> 0) { %>
+                    <% posts.forEach(post=> { %>
                         <div class="post-card">
-                            <img src="<%= post.image || 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=400&h=250&fit=crop' %>"
+                            <img src="<%= post.image || 'https://res.cloudinary.com/<cloud_name>/image/upload/v123456/default-post.jpg' %>"
                                 alt="<%= post.title %>" class="post-image">
+
                             <div class="post-content">
                                 <span class="post-category">
                                     <%= post.category || 'General' %>
@@ -164,17 +174,22 @@
                                     <%= post.title %>
                                 </h3>
                                 <p class="post-excerpt">
-                                    <%= post.content ? (post.content.length > 120 ? post.content.substring(0, 120) + '...' : post.content) : 'No content available' %>
+                                    <%= post.content ? (post.content.length> 120 ? post.content.substring(0, 120) +
+                                        '...' : post.content) : 'No content available' %>
                                 </p>
                                 <div class="post-meta">
                                     <div class="author-info">
-                                        <img src="<%= post.author && post.author.profileImageURL ? post.author.profileImageURL : 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face' %>"
+
+                                        <img src="<%= post.author && post.author.profileImageURL ? post.author.profileImageURL : '/images/man-avatar.jpg' %>"
                                             alt="<%= post.author && post.author.username ? post.author.username : 'Unknown' %>"
-                                            class="author-avatar">
+                                            class="author-avatar"
+                                            onerror="this.onerror=null;this.src='/images/man-avatar.jpg';">
                                         <span class="author-name">
-                                            <%= post.author && post.author.username ? post.author.username : 'Unknown Author' %>
+                                            <%= post.author && post.author.username ? post.author.username
+                                                : 'Unknown Author' %>
                                         </span>
                                     </div>
+
                                     <div class="like-section">
                                         <button class="like-btn" data-post-id="<%= post._id %>"
                                             data-logged-in="<%= user ? 'true' : 'false' %>">
@@ -192,75 +207,75 @@
                                 </div>
                             </div>
                         </div>
-                    <% }) %>
-                <% } else { %>
-                    <!-- Sample posts for demonstration -->
-                    <div class="post-card">
-                        <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=400&h=250&fit=crop"
-                            alt="Technology" class="post-image">
-                        <div class="post-content">
-                            <span class="post-category">Technology</span>
-                            <h3 class="post-title">The Future of Digital Connection</h3>
-                            <p class="post-excerpt">Exploring how technology shapes our relationships and
-                                builds bridges between communities...</p>
-                            <div class="post-meta">
-                                <div class="author-info">
-                                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face"
-                                        alt="Author" class="author-avatar">
-                                    <span class="author-name">Alex Johnson</span>
+                        <% }) %>
+                            <% } else { %>
+                                <!-- Sample posts for demonstration -->
+                                <div class="post-card">
+                                    <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=400&h=250&fit=crop"
+                                        alt="Technology" class="post-image">
+                                    <div class="post-content">
+                                        <span class="post-category">Technology</span>
+                                        <h3 class="post-title">The Future of Digital Connection</h3>
+                                        <p class="post-excerpt">Exploring how technology shapes our relationships and
+                                            builds bridges between communities...</p>
+                                        <div class="post-meta">
+                                            <div class="author-info">
+                                                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face"
+                                                    alt="Author" class="author-avatar">
+                                                <span class="author-name">Alex Johnson</span>
+                                            </div>
+                                            <div class="like-section">
+                                                <button class="like-btn"><i class="fas fa-heart"></i></button>
+                                                <span>24</span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="like-section">
-                                    <button class="like-btn"><i class="fas fa-heart"></i></button>
-                                    <span>24</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="post-card">
-                        <img src="https://images.unsplash.com/photo-1544027993-37dbfe43562a?w=400&h=250&fit=crop"
-                            alt="Lifestyle" class="post-image">
-                        <div class="post-content">
-                            <span class="post-category">Lifestyle</span>
-                            <h3 class="post-title">Finding Balance in Modern Life</h3>
-                            <p class="post-excerpt">A journey through wellness practices that support mental
-                                health and personal growth...</p>
-                            <div class="post-meta">
-                                <div class="author-info">
-                                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop&crop=face"
-                                        alt="Author" class="author-avatar">
-                                    <span class="author-name">Sarah Chen</span>
+                                <div class="post-card">
+                                    <img src="https://images.unsplash.com/photo-1544027993-37dbfe43562a?w=400&h=250&fit=crop"
+                                        alt="Lifestyle" class="post-image">
+                                    <div class="post-content">
+                                        <span class="post-category">Lifestyle</span>
+                                        <h3 class="post-title">Finding Balance in Modern Life</h3>
+                                        <p class="post-excerpt">A journey through wellness practices that support mental
+                                            health and personal growth...</p>
+                                        <div class="post-meta">
+                                            <div class="author-info">
+                                                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop&crop=face"
+                                                    alt="Author" class="author-avatar">
+                                                <span class="author-name">Sarah Chen</span>
+                                            </div>
+                                            <div class="like-section">
+                                                <button class="like-btn"><i class="fas fa-heart"></i></button>
+                                                <span>18</span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="like-section">
-                                    <button class="like-btn"><i class="fas fa-heart"></i></button>
-                                    <span>18</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="post-card">
-                        <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400&h=250&fit=crop"
-                            alt="Education" class="post-image">
-                        <div class="post-content">
-                            <span class="post-category">Education</span>
-                            <h3 class="post-title">Learning Never Stops</h3>
-                            <p class="post-excerpt">How continuous learning shapes our understanding of the
-                                world and ourselves...</p>
-                            <div class="post-meta">
-                                <div class="author-info">
-                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face"
-                                        alt="Author" class="author-avatar">
-                                    <span class="author-name">Marcus Davis</span>
+                                <div class="post-card">
+                                    <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400&h=250&fit=crop"
+                                        alt="Education" class="post-image">
+                                    <div class="post-content">
+                                        <span class="post-category">Education</span>
+                                        <h3 class="post-title">Learning Never Stops</h3>
+                                        <p class="post-excerpt">How continuous learning shapes our understanding of the
+                                            world and ourselves...</p>
+                                        <div class="post-meta">
+                                            <div class="author-info">
+                                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face"
+                                                    alt="Author" class="author-avatar">
+                                                <span class="author-name">Marcus Davis</span>
+                                            </div>
+                                            <div class="like-section">
+                                                <button class="like-btn"><i class="fas fa-heart"></i></button>
+                                                <span>31</span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="like-section">
-                                    <button class="like-btn"><i class="fas fa-heart"></i></button>
-                                    <span>31</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                <% } %>
+                                <% } %>
             </div>
 
             <div class="text-center">
@@ -275,14 +290,14 @@
             <h2 class="section-title">Top Liked Stories</h2>
             <p class="section-subtitle">Explore the most loved content from our community</p>
 
-            <% if (typeof trendingPosts !== 'undefined' && trendingPosts && trendingPosts.length > 0) { %>
+            <% if (typeof trendingPosts !=='undefined' && trendingPosts && trendingPosts.length> 0) { %>
                 <div class="slider-container">
                     <div class="slider-wrapper">
                         <div class="slider-track" id="trendingSlider">
-                            <% trendingPosts.forEach(post => { %>
+                            <% trendingPosts.forEach(post=> { %>
                                 <div class="slider-slide">
                                     <div class="post-card">
-                                        <img src="<%= post.image || 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=400&h=250&fit=crop' %>"
+                                        <img src="<%= post.image || 'https://res.cloudinary.com/<cloud_name>/image/upload/v123456/default-post.jpg' %>"
                                             alt="<%= post.title %>" class="post-image">
                                         <div class="post-content">
                                             <span class="post-category">
@@ -292,7 +307,8 @@
                                                 <%= post.title %>
                                             </h3>
                                             <p class="post-excerpt">
-                                                <%= post.content ? (post.content.length > 120 ? post.content.substring(0, 120) + '...' : post.content) : 'No content available' %>
+                                                <%= post.content ? (post.content.length> 120 ? post.content.substring(0,
+                                                    120) + '...' : post.content) : 'No content available' %>
                                             </p>
                                             <div class="post-meta">
                                                 <div class="author-info">
@@ -300,7 +316,8 @@
                                                         alt="<%= post.author && post.author.username ? post.author.username : 'Unknown' %>"
                                                         class="author-avatar">
                                                     <span class="author-name">
-                                                        <%= post.author && post.author.username ? post.author.username : 'Unknown Author' %>
+                                                        <%= post.author && post.author.username ? post.author.username
+                                                            : 'Unknown Author' %>
                                                     </span>
                                                 </div>
                                                 <div class="like-section">
@@ -321,24 +338,24 @@
                                         </div>
                                     </div>
                                 </div>
-                            <% }) %>
+                                <% }) %>
                         </div>
                     </div>
                     <button class="slider-prev" id="trendingPrev" aria-label="Previous slide">&#10094;</button>
                     <button class="slider-next" id="trendingNext" aria-label="Next slide">&#10095;</button>
                 </div>
-            <% } else { %>
-                <div class="empty-state text-center">
-                    <i class="fas fa-fire fa-3x mb-3" style="color: var(--warm-orange);"></i>
-                    <h4>No top liked posts yet</h4>
-                    <p class="text-muted">Like some posts to help them trend!</p>
-                    <% if (user) { %>
-                        <a href="/posts/" class="cta-button">Explore Posts to Like</a>
-                    <% } else { %>
-                        <a href="/user/login" class="cta-button">Log in to Like Posts</a>
+                <% } else { %>
+                    <div class="empty-state text-center">
+                        <i class="fas fa-fire fa-3x mb-3" style="color: var(--warm-orange);"></i>
+                        <h4>No top liked posts yet</h4>
+                        <p class="text-muted">Like some posts to help them trend!</p>
+                        <% if (user) { %>
+                            <a href="/posts/" class="cta-button">Explore Posts to Like</a>
+                            <% } else { %>
+                                <a href="/user/login" class="cta-button">Log in to Like Posts</a>
+                                <% } %>
+                    </div>
                     <% } %>
-                </div>
-            <% } %>
         </div>
     </section>
 
@@ -447,7 +464,7 @@
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-     <script src="/script/home.js"></script>
+    <script src="/script/home.js"></script>
 </body>
 
 </html>

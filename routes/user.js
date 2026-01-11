@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { randomBytes , createHmac } = require("crypto");
+const { randomBytes, createHmac } = require("crypto");
 const { user } = require("../Model/user");
 const { Post } = require("../Model/post");
 const { setUser, getUser } = require('../service/auth');
@@ -54,7 +54,7 @@ router
   })
 
   .post('/login', async (req, res) => {
-    const { password, email, redirect} = req.body;
+    const { password, email, redirect } = req.body;
     const redirectPath = redirect || '/';
     try {
       const foundUser = await user.matchPassword(email, password);
@@ -102,7 +102,7 @@ router
         posts: posts,
         totalPosts,
         totalLikes,
-        totalComments 
+        totalComments
       });
     } catch (err) {
       res.redirect("/user/login");
@@ -111,7 +111,7 @@ router
 
 router.get('/profile', async (req, res) => {
   if (!req.user) return res.redirect('/user/login');
-  res.render('profile', { user: req.user });
+  res.render('profile');
 });
 
 router.post('/profile', upload.single('profileImage'), async (req, res) => {
@@ -135,7 +135,7 @@ router.post('/profile', upload.single('profileImage'), async (req, res) => {
     await req.user.save();
     return res.redirect('/user/dashboard');
   } else {
-    return res.render('profile', { user: req.user, error });
+    return res.render('profile', {error });
   }
 });
 
@@ -175,11 +175,11 @@ router.post('/forgot-password', async (req, res) => {
 
 
     if (foundUser.isGoogleUser && !foundUser.password) {
-  return res.render('forgot-password', {
-    error: 'This account was created using Google login. Use Google to sign in.',
-    success: null
-  });
-}
+      return res.render('forgot-password', {
+        error: 'This account was created using Google login. Use Google to sign in.',
+        success: null
+      });
+    }
 
     // Generate and save reset token
     const token = randomBytes(32).toString('hex');
@@ -206,10 +206,16 @@ router.post('/forgot-password', async (req, res) => {
       to: foundUser.email,
       from: process.env.EMAIL_USER,
       subject: 'Password Reset Link',
-      html: `<p>You requested a password reset.</p>
-             <p>Click <a href="http://localhost:8000/user/reset-password/${token}">here</a> to reset your password. This link expires in 1 hour.</p>`
+      html: `
+    <p>You requested a password reset.</p>
+    <p>
+      Click <a href="https://blogsphere-3e6g.onrender.com/user/reset-password/${token}">
+      here</a> to reset your password. This link expires in 5 minutes.
+    </p>  
+  `
     });
-    
+
+
 
     // Check if email was accepted and has a valid response
     if (mailResponse.accepted.includes(foundUser.email) && mailResponse.response.includes('OK')) {
@@ -225,8 +231,6 @@ router.post('/forgot-password', async (req, res) => {
     });
   }
 });
-
-
 
 router.post('/reset-password/:token', async (req, res) => {
   const { password, cmpassword } = req.body;
