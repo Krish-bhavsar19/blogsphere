@@ -4,8 +4,11 @@ document.querySelectorAll('[data-created]').forEach(el => {
   el.textContent = date.toLocaleString();
 });
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 3b9b676310423076436350c074f26514ac0e4aaa
 // Loader functionality for first visit only
         document.addEventListener('DOMContentLoaded', function () {
             const loader = document.getElementById('loader');

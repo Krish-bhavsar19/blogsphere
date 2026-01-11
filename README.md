@@ -9,7 +9,10 @@ If you’re looking for a clean, extensible starting point for a blog applicatio
 
 
 ## Features
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3b9b676310423076436350c074f26514ac0e4aaa
 - Authentication: Local login/signup with JWT (httpOnly cookie), Google OAuth 2.0 via Passport.
 - Profile: Update username, email, and avatar (image uploaded to `public/images`).
 - Posts: Create, edit, delete posts with categories, tags, and hero images stored on Cloudinary.
@@ -20,7 +23,10 @@ If you’re looking for a clean, extensible starting point for a blog applicatio
 
 
 ## Tech Stack
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3b9b676310423076436350c074f26514ac0e4aaa
 - Backend: Node.js, Express 5, MongoDB (Mongoose 8)
 - Auth: JWT (cookie), Passport Google OAuth 2.0
 - Views: EJS templates + CSS/JS in `public/`
@@ -29,7 +35,10 @@ If you’re looking for a clean, extensible starting point for a blog applicatio
 
 
 ## Project Structure
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3b9b676310423076436350c074f26514ac0e4aaa
 connection.js
 Index.js
 package.json
@@ -59,14 +68,20 @@ view/
 ## Getting Started
 
 ### Prerequisites
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3b9b676310423076436350c074f26514ac0e4aaa
 - Node.js 18+ and npm
 - A MongoDB connection string (MongoDB Atlas recommended)
 - Cloudinary account (for post image uploads)
 - Gmail account with App Passwords (for password reset emails)
 
 ### Installation
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3b9b676310423076436350c074f26514ac0e4aaa
 ```cmd
 git clone <https://github.com/Krish-bhavsar19/blogsphere>
 cd "Blog Platform"
@@ -75,7 +90,10 @@ npm install
 
 Create a `.env` file in the project root:
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3b9b676310423076436350c074f26514ac0e4aaa
 Run the app in development mode (with auto‑reload):
 
 ```cmd
@@ -83,16 +101,25 @@ npm run dev
 ```
 
 Or run normally:
+<<<<<<< HEAD
 
 ```cmd
 npm start
 ```
 
+=======
+```cmd
+npm start
+```
+>>>>>>> 3b9b676310423076436350c074f26514ac0e4aaa
 Visit: http://localhost:8000
 
 
 ## How It Works
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3b9b676310423076436350c074f26514ac0e4aaa
 - `Index.js` bootstraps Express, connects to MongoDB, sets EJS, parses cookies/body, serves static files, and wires routes.
 - `service/auth.js` issues and verifies JWTs; tokens are stored in an httpOnly cookie named `uid`.
 - Local auth: passwords are salted and hashed using HMAC‑SHA256 (see `Model/user.js`).
@@ -102,7 +129,10 @@ Visit: http://localhost:8000
 
 
 ## Key Routes
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3b9b676310423076436350c074f26514ac0e4aaa
 Authentication & Profile
 - `GET /user/signup` — Render signup page
 - `POST /user/signup` — Create account (email, username, password)
@@ -138,7 +168,10 @@ Pages & Discovery
 
 
 ## Forms & Payloads
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3b9b676310423076436350c074f26514ac0e4aaa
 Create/Update Post (multipart/form-data):
 - `title`: string (required)
 - `content`: string (required)
@@ -153,7 +186,10 @@ Profile Update (multipart/form-data):
 
 
 ## Environment & Services
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3b9b676310423076436350c074f26514ac0e4aaa
 - MongoDB: `MONGO_URI` is read in `Index.js` by `connectmongo` (`connection.js`).
 - JWT: `JWT_SECRET` used in `service/auth.js` for signing/verifying.
 - Google OAuth: `GOOGLE_*` used in `config/passport.js`.
@@ -162,7 +198,10 @@ Profile Update (multipart/form-data):
 
 
 ## Notes & Known Limitations
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3b9b676310423076436350c074f26514ac0e4aaa
 - Reset‑link URL: The email template in `routes/user.js` currently hard‑codes a Render URL. Update it to your deployment/base URL if you fork this project.
 - View counts: Some view‑count routes exist but the `views`/`viewedPosts` fields are not defined in the current schemas; treat view counts as experimental.
 - Duplicate home route: `Index.js` defines `/` and `routes/staticRouter.js` also declares `/`. The main home page is served by the `/` route in `Index.js`.
@@ -170,19 +209,27 @@ Profile Update (multipart/form-data):
 
 
 ## Development Tips
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3b9b676310423076436350c074f26514ac0e4aaa
 - Ensure all Cloudinary and Google OAuth env vars are set before creating posts or using Google login.
 - For Gmail, use an App Password (2FA must be enabled) and set `EMAIL_USER`/`EMAIL_PASS` accordingly.
 - In production, set the cookie to `secure: true` and serve behind HTTPS.
 
+<<<<<<< HEAD
 
 ## Scripts
 
+=======
+## Scripts
+>>>>>>> 3b9b676310423076436350c074f26514ac0e4aaa
 ```cmd
 npm run dev   // start with nodemon on http://localhost:8000
 npm start     // start with node
 ```
 
+<<<<<<< HEAD
 
 ## License
 
@@ -191,6 +238,12 @@ ISC — see `package.json`.
 
 ## Acknowledgements
 
+=======
+## License
+ISC — see `package.json`.
+
+## Acknowledgements
+>>>>>>> 3b9b676310423076436350c074f26514ac0e4aaa
 - Passport.js Google OAuth 2.0
 - Cloudinary for media storage
 - MongoDB Atlas
